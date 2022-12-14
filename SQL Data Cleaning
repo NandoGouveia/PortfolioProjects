@@ -1,8 +1,8 @@
-																	--Data Cleaning - SQL
+						--Data Cleaning - SQL
  
 --In this document i have made unusable data into data that can be used. 
  
-										--standardize Date Format
+		--standardize Date Format
 
   Select SaleDateConverted, CONVERT(Date, SaleDate)
   FROM PortfolioProject..NashvilleHousing
@@ -16,7 +16,7 @@
   Update NashvilleHousing
   SET SaleDateConverted = Convert(Date,Saledate)
 
-											-- Populate Property Address data (getting rid of the nulls with valid data)
+			-- Populate Property Address data (getting rid of the nulls with valid data)
 
   Select *
   From PortfolioProject..NashvilleHousing
@@ -24,7 +24,8 @@
   ORDER BY ParcelID
 
   --Checks for all the NULLS within Property Address Column:
-  Select Table1.ParcelID,  Table1.PropertyAddress, Table2.ParcelID, Table2.PropertyAddress, ISNULL(Table1.PropertyAddress, Table2.PropertyAddress)
+  Select Table1.ParcelID,  Table1.PropertyAddress, Table2.ParcelID, Table2.PropertyAddress, 
+  ISNULL(Table1.PropertyAddress, Table2.PropertyAddress)
   From PortfolioProject..NashvilleHousing Table1
   JOIN PortfolioProject..NashvilleHousing Table2
   ON Table1.ParcelID = Table2.ParcelID
@@ -40,7 +41,7 @@
   AND Table1.[UniqueID ] != Table2.[UniqueID ]
   WHERE Table1.PropertyAddress is null
 
-														--Splitting data (method 1)
+						--Splitting data (method 1)
 
 --Breaking our Address into Individual Columns (Address, City, State), +1 and -1 is to remove Comma from results
 --SELECT is used to see that what we are doing is working properly, then we can alter & update the table
@@ -66,11 +67,12 @@
 
   
 
-  ---------------------------------------------------------------------------------------------------------------------------------
-													--Splitting data (method 2)
+  -----------------------------------------------------------------------------------------------------------------
+						--Splitting data (method 2)
 
   --(easier than Substring)
-  --Parsename separates everything that is separated by a full stop '.'. REPLACE converts (in this case) a comma to a full dot. 
+  --Parsename separates everything that is separated by a full stop '.'.
+  --REPLACE converts (in this case) a comma to a full dot. 
 
 
   SELECT 
@@ -100,7 +102,7 @@
   SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',', '.'), 1)
 
   
-										--Changing Y and N to Yes and No in "Sold as Vacant" field
+					--Changing Y and N to Yes and No in "Sold as Vacant" field
 		--checks:
   SELECT Distinct(SoldAsVacant), count(soldAsVacant)
   FROM PortfolioProject..NashvilleHousing
@@ -115,8 +117,9 @@ SET SoldAsVacant = CASE WHEN SoldAsVacant ='Y' THEN 'YES'
 						END
 
 
-												--Removing Duplicates
---The Row_number is used so that if the data repeats itself, the row_number value will be greater than 1, allowing me to delete duplicates with a where statement
+							--Removing Duplicates
+--The Row_number is used so that if the data repeats itself, the row_number value will be greater than 1, 
+--allowing me to delete duplicates with a where statement
 
 WITH RowNumCTE AS(
 SELECT *, 
@@ -136,7 +139,7 @@ DELETE
 from RowNumCTE
 WHERE row_num > 1
 
-												--Delete Unused columns (usually only used in Views):
+					--Delete Unused columns (usually only used in Views)
 
 ALTER TABLE PortfolioProject..NashvilleHousing
 DROP COLUMN ownerAddress, TaxDistrict, PropertyAddress
