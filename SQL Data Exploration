@@ -22,7 +22,7 @@ order by 1,2
 
 				--looking at total cases vs population, shows % of population that got covid
 			
-Select Location, date, Population, total_cases, (total_cases/population)*100 as %ofpopulationinfected
+Select Location, date, Population, total_cases, (total_cases/population)*100 as PercentOfPopulationinfected
 FROM PortfolioProject..CovidDeaths
 WHERE location = 'Portugal'
 order by 1,2 
