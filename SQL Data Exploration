@@ -13,7 +13,7 @@ FROM PortfolioProject..CovidDeaths
 order by 1, 2
 
 				--looking at total cases vs total deaths
-				--shows likelihood of dying if you have covid in PT
+				--shows likelihood of dying if you have covid in Portugal
 			
 Select Location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as death_rate
 FROM PortfolioProject..CovidDeaths
